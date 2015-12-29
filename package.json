@@ -6,7 +6,9 @@
     "start": "react-native start"
   },
   "dependencies": {
-    "react-native": "^0.15.0"
+    "firebase": "^2.3.2",
+    "react-native": "^0.15.0",
+    "reactfire": "^0.5.1"
   },
   "devDependencies": {
     "babel-core": "^6.3.13",
@@ -16,6 +18,7 @@
     "history": "^1.13.1",
     "react": "^0.14.3",
     "react-dom": "^0.14.3",
-    "react-router": "^1.0.2"
+    "react-router": "^1.0.2",
+    "webpack": "^1.12.9"
   }
 }
