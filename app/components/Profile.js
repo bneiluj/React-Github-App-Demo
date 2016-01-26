@@ -27,6 +27,7 @@ var Profile = React.createClass({
       this.unbind('notes');
     },
     render: function () {
+        console.log("this.props: ", this.props);
         return (
           <div className="row">
             <div className="col-md-4">
