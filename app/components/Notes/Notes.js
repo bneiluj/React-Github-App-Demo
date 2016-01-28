@@ -6,7 +6,7 @@ var Notes = React.createClass({
     propTypes: {
         username: React.PropTypes.string.isRequired,
         notes: React.PropTypes.array.isRequired,
-        addNote: React.propTypes.func.isRequired
+        addNote: React.PropTypes.func.isRequired
     },
     render: function () {
         return (
@@ -15,7 +15,7 @@ var Notes = React.createClass({
             <AddNote
                 username={this.props.username}
                 addNote={this.props.addNote} />
-            <NotesList notes={this.props.notes}/>
+            <NotesList notes={this.props.notes} />
           </div>
         )
     }

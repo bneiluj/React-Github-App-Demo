@@ -24606,7 +24606,7 @@
 	    propTypes: {
 	        username: React.PropTypes.string.isRequired,
 	        notes: React.PropTypes.array.isRequired,
-	        addNote: React.propTypes.func.isRequired
+	        addNote: React.PropTypes.func.isRequired
 	    },
 	    render: function render() {
 	        return React.createElement(
@@ -24640,6 +24640,9 @@
 	var NotesList = React.createClass({
 	    displayName: "NotesList",
 
+	    propTypes: {
+	        notes: React.PropTypes.array.isRequired
+	    },
 	    render: function render() {
 	        console.log("this.props.notes: ", this.props.notes);
 	        // Notes
