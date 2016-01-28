@@ -21,10 +21,22 @@ var Profile = React.createClass({
       this.ref = new Firebase('https://reactstagedemo.firebaseio.com/');
       console.log("this.ref: ", this.ref);
       var childRef = this.ref.child(this.props.params.username)
+      // Receive new data and push it to our state 'notes'
       this.bindAsArray(childRef, 'notes');
     },
     componentWillUmount: function () {
       this.unbind('notes');
+    },
+    // We need to get this handleAddNote down to the controller
+    handleAddNote: function (newNote) {
+      // Update firebase
+      // I use set instead of push because push create a new key !
+      // Child means whatever username we are on ie: this.props.params.username
+      // and then /the number of notes and set a new one
+      this.ref.child(this.props.params.username)
+          .child(this.state.notes.length)
+          // Set replace the data above - if it doesn't exist then it creates it
+          .set(newNote);
     },
     render: function () {
         console.log("this.props: ", this.props);
@@ -43,7 +55,8 @@ var Profile = React.createClass({
             <div className="col-md-4">
               <Notes
                 username={this.props.params.username}
-                notes={this.state.notes}/>
+                notes={this.state.notes}
+                addNote={this.handleAddNote}/>
             </div>
           </div>
         )
