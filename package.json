@@ -6,6 +6,7 @@
     "start": "react-native start"
   },
   "dependencies": {
+    "axios": "^0.9.1",
     "firebase": "^2.3.2",
     "react-native": "^0.15.0",
     "reactfire": "^0.5.1"

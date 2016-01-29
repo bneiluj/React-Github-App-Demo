@@ -5,15 +5,14 @@ var UserProfile = require('./Github/UserProfile');
 var Notes = require('./Notes/Notes');
 var ReactFireMixin = require('reactFire');
 var Firebase = require('firebase');
+var helpers = require('../utils/helpers');
 
 var Profile = React.createClass({
     mixins: [ReactFireMixin],
     getInitialState: function () {
       return {
         notes: [1,2,3],
-        bio: {
-          name: 'Julien Bouteloup'
-        },
+        bio: {},
         repos: ['a','b','c']
       }
     },
@@ -23,6 +22,15 @@ var Profile = React.createClass({
       var childRef = this.ref.child(this.props.params.username)
       // Receive new data and push it to our state 'notes'
       this.bindAsArray(childRef, 'notes');
+
+      // Get user info when component is mounts
+      helpers.getGithubInfo(this.props.params.username)
+          .then(function (data) {
+              this.setState({
+                  bio: data.bio,
+                  repos: data.repos
+              })
+          }.bind(this))
     },
     componentWillUmount: function () {
       this.unbind('notes');
