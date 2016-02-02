@@ -1,37 +1,23 @@
-var axios = require('axios');
+import axios from 'axios';
 
 /**
 * Get repos
 */
 function getRepos (username) {
-    return axios.get('https://api.github.com/users/' + username + '/repos');
+    return axios.get(`https://api.github.com/users/${username}/repos`);
 }
 
 /**
 * Get user info
 */
 function getUserInfo (username) {
-    return axios.get('https://api.github.com/users/' + username);
+    //$ is to evaluate - part of es6
+    return axios.get(`https://api.github.com/users/${username}`);
 }
 
-/**
- * Helper function
- */
-var helpers = {
-    getGithubInfo: function (username) {
-        return axios.all([
-            getRepos(username),
-            getUserInfo(username)
-        ])
-        .then(function (array) {
-            return {
-                // the first elem on the array is the user repos
-                repos: array[0].data,
-                bio: array[1].data
-            }
-        })
-    }
-}
-
-// Export
-module.exports = helpers;
+export default function getGithubInfo(username) {
+      return axios.all([getRepos(username),getUserInfo(username)])
+      // The array function doesn't create an other scope
+      // the => () means that we want to return an object as {} is not specified
+      .then((array) => ({repos: array[0].data,bio: array[1].data}))
+  }

@@ -46,15 +46,26 @@
 
 	'use strict';
 
-	var React = __webpack_require__(1);
-	var ReactDOM = __webpack_require__(158);
-	var Router = __webpack_require__(159).Router;
-	var routes = __webpack_require__(209);
+	var _react = __webpack_require__(1);
 
-	ReactDOM.render(React.createElement(
-	    Router,
+	var _react2 = _interopRequireDefault(_react);
+
+	var _reactDom = __webpack_require__(158);
+
+	var _reactDom2 = _interopRequireDefault(_reactDom);
+
+	var _reactRouter = __webpack_require__(159);
+
+	var _routes = __webpack_require__(209);
+
+	var _routes2 = _interopRequireDefault(_routes);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	_reactDom2.default.render(_react2.default.createElement(
+	    _reactRouter.Router,
 	    null,
-	    routes
+	    _routes2.default
 	), document.getElementById('app'));
 
 /***/ },
@@ -24358,20 +24369,38 @@
 
 	'use strict';
 
-	var React = __webpack_require__(1);
-	var Main = __webpack_require__(210);
-	var Home = __webpack_require__(212);
-	var Profile = __webpack_require__(213);
-	var Router = __webpack_require__(159);
-	var Route = Router.Route;
-	var IndexRoute = Router.IndexRoute;
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+
+	var _react = __webpack_require__(1);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	var _Main = __webpack_require__(210);
+
+	var _Main2 = _interopRequireDefault(_Main);
+
+	var _Home = __webpack_require__(212);
+
+	var _Home2 = _interopRequireDefault(_Home);
+
+	var _Profile = __webpack_require__(213);
+
+	var _Profile2 = _interopRequireDefault(_Profile);
+
+	var _reactRouter = __webpack_require__(159);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	//same as Router.IndexRoute
 
 	// Export
-	module.exports = React.createElement(
-	  Route,
-	  { path: '/', component: Main },
-	  React.createElement(Route, { path: 'profile/:username', component: Profile }),
-	  React.createElement(IndexRoute, { component: Home })
+	exports.default = _react2.default.createElement(
+	  _reactRouter.Route,
+	  { path: '/', component: _Main2.default },
+	  _react2.default.createElement(_reactRouter.Route, { path: 'profile/:username', component: _Profile2.default }),
+	  _react2.default.createElement(_reactRouter.IndexRoute, { component: _Home2.default })
 	);
 
 /***/ },
@@ -24497,6 +24526,12 @@
 
 	'use strict';
 
+	var _helpers = __webpack_require__(221);
+
+	var _helpers2 = _interopRequireDefault(_helpers);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
 	var React = __webpack_require__(1);
 	var Router = __webpack_require__(159);
 	var Repos = __webpack_require__(214);
@@ -24504,7 +24539,6 @@
 	var Notes = __webpack_require__(216);
 	var ReactFireMixin = __webpack_require__(219);
 	var Firebase = __webpack_require__(220);
-	var helpers = __webpack_require__(221);
 
 	var Profile = React.createClass({
 	  displayName: 'Profile',
@@ -24535,7 +24569,7 @@
 	    this.bindAsArray(childRef, 'notes');
 
 	    // Get user info when component is mounts
-	    helpers.getGithubInfo(username).then((function (data) {
+	    (0, _helpers2.default)(username).then((function (data) {
 	      this.setState({
 	        bio: data.bio,
 	        repos: data.repos
@@ -25509,39 +25543,40 @@
 
 	'use strict';
 
-	var axios = __webpack_require__(222);
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
+	exports.default = getGithubInfo;
+
+	var _axios = __webpack_require__(222);
+
+	var _axios2 = _interopRequireDefault(_axios);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	/**
 	* Get repos
 	*/
 	function getRepos(username) {
-	    return axios.get('https://api.github.com/users/' + username + '/repos');
+	    return _axios2.default.get('https://api.github.com/users/' + username + '/repos');
 	}
 
 	/**
 	* Get user info
 	*/
 	function getUserInfo(username) {
-	    return axios.get('https://api.github.com/users/' + username);
+	    //$ is to evaluate - part of es6
+	    return _axios2.default.get('https://api.github.com/users/' + username);
 	}
 
-	/**
-	 * Helper function
-	 */
-	var helpers = {
-	    getGithubInfo: function getGithubInfo(username) {
-	        return axios.all([getRepos(username), getUserInfo(username)]).then(function (array) {
-	            return {
-	                // the first elem on the array is the user repos
-	                repos: array[0].data,
-	                bio: array[1].data
-	            };
-	        });
-	    }
-	};
-
-	// Export
-	module.exports = helpers;
+	function getGithubInfo(username) {
+	    return _axios2.default.all([getRepos(username), getUserInfo(username)])
+	    // The array function doesn't create an other scope
+	    // the => () means that we want to return an object as {} is not specified
+	    .then(function (array) {
+	        return { repos: array[0].data, bio: array[1].data };
+	    });
+	}
 
 /***/ },
 /* 222 */
