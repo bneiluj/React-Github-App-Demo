@@ -1,36 +1,38 @@
-var React = require('react');
+import React from 'react';
 
-var AddNote = React.createClass({
-  propTypes: {
-      username: React.PropTypes.string.isRequired,
-      addNote: React.PropTypes.func.isRequired
-  },
-  setRef: function (ref) {
-    this.note = ref;
-  },
-  handleSubmit: function () {
-    var newNote = this.note.value;
-    this.note.value = '';
-    this.props.addNote(newNote);
-  },
-  render: function () {
-      return (
-          <div>
-              <input
-                  type='text'
-                  className='form-control'
-                  placeholder='Add New Note'
-                  // let's call that function setRef
-                  ref={this.setRef} />
-              <span className='input-group-button'>
-                  <button
-                      className='btn btn-default'
-                      type='button'
-                      onClick={this.handleSubmit}></button>
-              </span>
-          </div>
-      )
-  }
-});
+class AddNote extends React.Component {
+    handleSubmit () {
+      var newNote = this.note.value;
+      this.note.value = '';
+      this.props.addNote(newNote);
+    }
+    setRef (ref) {
+      this.note = ref;
+    }
+    // Array function doesn't create their own scope
+    render () {
+        return (
+            <div>
+                <input
+                    type='text'
+                    className='form-control'
+                    placeholder='Add New Note'
+                    ref={(ref) => this.setRef(ref)} />
+                <span className='input-group-button'>
+                    <button
+                        className='btn btn-default'
+                        type='button'
+                        onClick={() => this.handleSubmit()}>Submit</button>
+                </span>
+            </div>
+        )
+    }
+}
+
+AddNote.propTypes = {
+    username: React.PropTypes.string.isRequired,
+    addNote: React.PropTypes.func.isRequired
+};
+
 // Exports
-module.exports = AddNote;
+export default AddNote;

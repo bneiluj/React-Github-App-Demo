@@ -1,6 +1,6 @@
 var React = require('react');
-var NotesList = require('./NotesList');
-var AddNote = require('./AddNote');
+import NotesList from './NotesList';
+import AddNote from './AddNote';
 
 var Notes = React.createClass({
     propTypes: {
