@@ -18,19 +18,29 @@ var Profile = React.createClass({
     },
     componentDidMount: function () {
       this.ref = new Firebase('https://reactstagedemo.firebaseio.com/');
-      console.log("this.ref: ", this.ref);
-      var childRef = this.ref.child(this.props.params.username)
-      // Receive new data and push it to our state 'notes'
-      this.bindAsArray(childRef, 'notes');
+      this.init(this.props.params.username);
+    },
+    // When we search for a new user
+    // we don't want to refresh the page but just change the props
+    componentWillReceiveProps: function (nextProps) {
+      // when we receive new notes we are going to unbind the notes
+      this.unbind('notes');
+      this.init(nextProps.params.username);
+    },
+    // We want to setup a listenner when new props arrive = new username
+    init: function (username) {
+        var childRef = this.ref.child(username)
+        // Receive new data and push it to our state 'notes'
+        this.bindAsArray(childRef, 'notes');
 
-      // Get user info when component is mounts
-      helpers.getGithubInfo(this.props.params.username)
-          .then(function (data) {
-              this.setState({
-                  bio: data.bio,
-                  repos: data.repos
-              })
-          }.bind(this))
+        // Get user info when component is mounts
+        helpers.getGithubInfo(username)
+            .then(function (data) {
+                this.setState({
+                    bio: data.bio,
+                    repos: data.repos
+                })
+            }.bind(this))
     },
     componentWillUmount: function () {
       this.unbind('notes');

@@ -24432,7 +24432,7 @@
 	    handleSubmit: function handleSubmit() {
 	        var username = this.usernameRef.value;
 	        this.usernameRef.value = '';
-	        this.history.pushState(null, 'profile/' + username);
+	        this.history.pushState(null, '/profile/' + username);
 	    },
 	    render: function render() {
 	        return React.createElement(
@@ -24519,13 +24519,23 @@
 	  },
 	  componentDidMount: function componentDidMount() {
 	    this.ref = new Firebase('https://reactstagedemo.firebaseio.com/');
-	    console.log("this.ref: ", this.ref);
-	    var childRef = this.ref.child(this.props.params.username);
+	    this.init(this.props.params.username);
+	  },
+	  // When we search for a new user
+	  // we don't want to refresh the page but just change the props
+	  componentWillReceiveProps: function componentWillReceiveProps(nextProps) {
+	    // when we receive new notes we are going to unbind the notes
+	    this.unbind('notes');
+	    this.init(nextProps.params.username);
+	  },
+	  // We want to setup a listenner when new props arrive = new username
+	  init: function init(username) {
+	    var childRef = this.ref.child(username);
 	    // Receive new data and push it to our state 'notes'
 	    this.bindAsArray(childRef, 'notes');
 
 	    // Get user info when component is mounts
-	    helpers.getGithubInfo(this.props.params.username).then((function (data) {
+	    helpers.getGithubInfo(username).then((function (data) {
 	      this.setState({
 	        bio: data.bio,
 	        repos: data.repos
