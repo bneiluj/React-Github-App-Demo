@@ -7,6 +7,8 @@ class Main extends React.Component {
           <div className="main-container">
             <nav className="navbar navbar-default" role="navigation">
               <div className="col-sm-7 col-sm-offset-2" style={{marginTop: 15}}>
+                // Main component has access to this.props.history is because
+                // the main component is being controlled by the router
                 <SearchGithub history={this.props.history}/>
               </div>
             </nav>

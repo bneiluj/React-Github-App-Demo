@@ -24452,6 +24452,7 @@
 	          _react2.default.createElement(
 	            'div',
 	            { className: 'col-sm-7 col-sm-offset-2', style: { marginTop: 15 } },
+	            '// Main component has access to this.props.history is because // the main component is being controlled by the router',
 	            _react2.default.createElement(_SearchGithub2.default, { history: this.props.history })
 	          )
 	        ),
