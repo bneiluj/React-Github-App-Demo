@@ -1,37 +1,47 @@
-var React = require('react');
-var Router = require('react-router');
+import React from 'react';
 import Repos from './Github/Repos';
 import UserProfile from './Github/UserProfile';
 import Notes from './Notes/Notes';
-var ReactFireMixin = require('reactFire');
-var Firebase = require('firebase');
 import getGithubInfo from '../utils/helpers';
+import Rebase from 're-base';
 
-var Profile = React.createClass({
-    mixins: [ReactFireMixin],
-    getInitialState: function () {
-      return {
-        notes: [1,2,3],
-        bio: {},
-        repos: ['a','b','c']
-      }
-    },
-    componentDidMount: function () {
-      this.ref = new Firebase('https://reactstagedemo.firebaseio.com/');
+// Rebase
+const base = Rebase.createClass('https://reactstagedemo.firebaseio.com/');
+
+class Profile extends React.Component {
+    // based on es6 with super
+    constructor (props) {
+        // use super to be able to use this
+        super(props);
+        this.state = {
+            notes: [],
+            bio: {},
+            repos: []
+        }
+    }
+    componentDidMount () {
       this.init(this.props.params.username);
-    },
+    }
     // When we search for a new user
     // we don't want to refresh the page but just change the props
-    componentWillReceiveProps: function (nextProps) {
+    componentWillReceiveProps (nextProps) {
+      // remove binding when the username chaing
+      base.removeBinding(this.ref);
       // when we receive new notes we are going to unbind the notes
-      this.unbind('notes');
       this.init(nextProps.params.username);
-    },
+    }
+    componentWillUmount () {
+        base.removeBinding(this.ref);
+    }
     // We want to setup a listenner when new props arrive = new username
-    init: function (username) {
-        var childRef = this.ref.child(username)
-        // Receive new data and push it to our state 'notes'
-        this.bindAsArray(childRef, 'notes');
+    init (username) {
+        // I want to bind to the username in firebase, the context and how to get
+        // the data back and which state object = notes
+        this.ref = base.bindToState(username, {
+            context: this,
+            asArray: true,
+            state: 'notes'
+        });
 
         // Get user info when component is mounts
         getGithubInfo(username)
@@ -41,23 +51,16 @@ var Profile = React.createClass({
                     repos: data.repos
                 })
             }.bind(this))
-    },
-    componentWillUmount: function () {
-      this.unbind('notes');
-    },
+    }
     // We need to get this handleAddNote down to the controller
-    handleAddNote: function (newNote) {
-      // Update firebase
-      // I use set instead of push because push create a new key !
-      // Child means whatever username we are on ie: this.props.params.username
-      // and then /the number of notes and set a new one
-      this.ref.child(this.props.params.username)
-          .child(this.state.notes.length)
-          // Set replace the data above - if it doesn't exist then it creates it
-          .set(newNote);
-    },
-    render: function () {
-        console.log("this.props: ", this.props);
+    handleAddNote (newNote) {
+        // the endpoint we want to post to
+        base.post(this.props.params.username, {
+            // we create a brand new array but adding the note
+            data: this.state.notes.concat([newNote])
+        })
+    }
+    render () {
         return (
           <div className="row">
             <div className="col-md-4">
@@ -74,12 +77,11 @@ var Profile = React.createClass({
               <Notes
                 username={this.props.params.username}
                 notes={this.state.notes}
-                addNote={this.handleAddNote} />
+                addNote={(newNote) => this.handleAddNote(newNote)} />
             </div>
           </div>
         )
     }
-});
-
+}
 // exports
-module.exports = Profile;
+export default Profile;
