@@ -4,7 +4,7 @@ class NotesList extends React.Component {
     render(){
         // Destructuring variables
         // Saving into a variable called notes
-        var { notes } = this.props;
+        const { notes } = this.props;
         return (
             <ul className="list-group">
               {notes.map((note, index)  => (

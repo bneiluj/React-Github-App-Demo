@@ -24526,6 +24526,10 @@
 
 	'use strict';
 
+	var _Notes = __webpack_require__(234);
+
+	var _Notes2 = _interopRequireDefault(_Notes);
+
 	var _helpers = __webpack_require__(214);
 
 	var _helpers2 = _interopRequireDefault(_helpers);
@@ -24536,7 +24540,7 @@
 	var Router = __webpack_require__(159);
 	var Repos = __webpack_require__(232);
 	var UserProfile = __webpack_require__(233);
-	var Notes = __webpack_require__(234);
+
 	var ReactFireMixin = __webpack_require__(237);
 	var Firebase = __webpack_require__(238);
 
@@ -24611,7 +24615,7 @@
 	      React.createElement(
 	        'div',
 	        { className: 'col-md-4' },
-	        React.createElement(Notes, {
+	        React.createElement(_Notes2.default, {
 	          username: this.props.params.username,
 	          notes: this.state.notes,
 	          addNote: this.handleAddNote })
@@ -25909,6 +25913,16 @@
 
 	'use strict';
 
+	var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
+
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
+
+	var _react = __webpack_require__(1);
+
+	var _react2 = _interopRequireDefault(_react);
+
 	var _NotesList = __webpack_require__(235);
 
 	var _NotesList2 = _interopRequireDefault(_NotesList);
@@ -25919,36 +25933,52 @@
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-	var React = __webpack_require__(1);
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
-	var Notes = React.createClass({
-	    displayName: 'Notes',
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
 
-	    propTypes: {
-	        username: React.PropTypes.string.isRequired,
-	        notes: React.PropTypes.array.isRequired,
-	        addNote: React.PropTypes.func.isRequired
-	    },
-	    render: function render() {
-	        return React.createElement(
-	            'div',
-	            null,
-	            React.createElement(
-	                'h3',
-	                null,
-	                'Notes for ',
-	                this.props.username
-	            ),
-	            React.createElement(_AddNote2.default, {
-	                username: this.props.username,
-	                addNote: this.props.addNote }),
-	            React.createElement(_NotesList2.default, { notes: this.props.notes })
-	        );
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+	var Notes = (function (_React$Component) {
+	    _inherits(Notes, _React$Component);
+
+	    function Notes() {
+	        _classCallCheck(this, Notes);
+
+	        return _possibleConstructorReturn(this, Object.getPrototypeOf(Notes).apply(this, arguments));
 	    }
-	});
+
+	    _createClass(Notes, [{
+	        key: 'render',
+	        value: function render() {
+	            return _react2.default.createElement(
+	                'div',
+	                null,
+	                _react2.default.createElement(
+	                    'h3',
+	                    null,
+	                    'Notes for ',
+	                    this.props.username
+	                ),
+	                _react2.default.createElement(_AddNote2.default, {
+	                    username: this.props.username,
+	                    addNote: this.props.addNote }),
+	                _react2.default.createElement(_NotesList2.default, { notes: this.props.notes })
+	            );
+	        }
+	    }]);
+
+	    return Notes;
+	})(_react2.default.Component);
+
+	Notes.propTypes = {
+	    username: _react2.default.PropTypes.string.isRequired,
+	    notes: _react2.default.PropTypes.array.isRequired,
+	    addNote: _react2.default.PropTypes.func.isRequired
+	};
 
 	// Exports
-	module.exports = Notes;
+	exports.default = Notes;
 
 /***/ },
 /* 235 */
