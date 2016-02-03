@@ -2,6 +2,13 @@
 Demo for presenting react on stage
 Quick Github copycat
 
+# Stack
+- ES6
+- Webpack 
+- Babel
+- React
+- Firebase
+
 # Install
 - npm install
 
