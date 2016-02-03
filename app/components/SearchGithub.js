@@ -1,27 +1,27 @@
-var React = require('react');
-var Router = require('react-router');
+import React from 'react';
+import Router from 'react-router';
 
-var SearchGithub = React.createClass({
-    // add router history to the this scope
-    mixins: [Router.History],
-    getRef: function (ref) {
+class SearchGithub extends React.Component {
+    // ATTENTION IT"S FUNCTION INSIDE A CLASS
+    //  SO THE SCOPE DOESNT GET AUT BIND
+    getRef (ref) {
         this.usernameRef = ref;
-    },
+    }
     // Grab the username and bring the user to the /profile/username
-    handleSubmit: function () {
-        var username = this.usernameRef.value;
+    handleSubmit () {
+        const username = this.usernameRef.value;
         this.usernameRef.value = '';
-        this.history.pushState(null, '/profile/' + username);
-    },
-    render: function () {
+        this.props.history.pushState(null, '/profile/' + username);
+    }
+    render () {
         return (
             <div className="col-sm-12">
-                <form onSubmit={this.handleSubmit}>
+                <form onSubmit={() => this.handleSubmit()}>
                     <div className="form-group col-sm-7">
                         <input
                             type='text'
                             className='form-control'
-                            ref={this.getRef}/>
+                            ref={(ref) => this.getRef(ref)}/>
                     </div>
                     <div className='form-group col-sm-5'>
                         <button
@@ -34,7 +34,13 @@ var SearchGithub = React.createClass({
             </div>
         )
     }
-});
+}
+
+SearchGithub.PropTypes = {
+    // add router history to the this scope
+    //  takes the instance and mixins some methods like the pushState
+    history: React.PropTypes.object.isRequired
+}
 
 // Exports
-module.exports = SearchGithub;
+export default SearchGithub;
